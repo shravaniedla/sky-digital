@@ -1,5 +1,6 @@
 const { describe ,expect, test} = require('@jest/globals');
 const {Builder, By, until} = require('selenium-webdriver');
+//import { URL } from ('../pages/skyhome');
 
 describe('This feature will make the search show the results that are determined by editorial, as well as generic searches', () => {
     test('User sees the editorial section in specific searches', async () => {
@@ -21,7 +22,7 @@ describe('This feature will make the search show the results that are determined
         // switch to default
         await driver.switchTo().defaultContent();
 
-        await driver.findElement(By.xpath("//button[@id='masthead-search-toggle']")).click();
+        await driver.findElement(By.id("masthead-search-toggle")).click();
         await driver.findElement(By.xpath("//input[@data-test-id='input-box']")).sendKeys('sky');
 
         await driver.wait(until.elementLocated(By.xpath("//div[@data-test-id = 'editorial-section']")),5000);

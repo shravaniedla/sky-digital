@@ -1,20 +1,21 @@
 const { describe ,expect, test} = require('@jest/globals');
 const {Builder, By, until} = require('selenium-webdriver');
 
-describe('This feature will make sure that the shop page is navigable and usable.', () => {
-      
+describe('This feature will make sure that the shop page is navigable and usable.', () => {  
     test('User navigates to shop page', async () => {
         let driver = new Builder().forBrowser('chrome').build();
         //GIVEN
         await driver.get('https://www.sky.com');
     
         driver.manage().deleteAllCookies();
+       // acceptCookie(driver);
+
         const iframe = driver.findElement(By.css("iframe[id*='sp_message']"));
-        
+
         // switching to frame
         await driver.switchTo().frame(iframe);
 
-        await (await driver.findElement(By.xpath("//button[text()='Agree']"))).click();
+        await driver.findElement(By.xpath("//button[text()='Agree']")).click();
 
         // switch to default
         await driver.switchTo().defaultContent();
@@ -36,7 +37,7 @@ describe('This feature will make sure that the shop page is navigable and usable
     }, 30000);
 
     test('User sees tiles on the shop page', async () => {
-
+        var errorMessage = '';
         let driver = new Builder().forBrowser('chrome').build();
         //GIVEN
         await driver.get('https://www.sky.com');
@@ -51,12 +52,16 @@ describe('This feature will make sure that the shop page is navigable and usable
 
         //WHEN
         await driver.findElement(By.xpath("//a[contains(@class, 'sign-in-link')]")).click();
-        await driver.findElement(By.xpath("//input[@id='username']")).sendKeys('shravani.edla@gmail.com');
-        await driver.findElement(By.xpath("//input[@id='password']")).sendKeys('invalid');
+        await driver.findElement(By.id('username')).sendKeys('shravani.edla@gmail.com');
+        await driver.findElement(By.id('password')).sendKeys('invalid');
 
-        await driver.findElement(By.xpath("//button[@id='signinButton']")).click();
+        await driver.findElement(By.id('signinButton')).click();
 
-        let errorMessage = await driver.findElement(By.xpath("//div[@class='globalErrors']")).getText();
+        try{
+            errorMessage = await driver.findElement(By.className('globalErrors')).getText();
+        }catch (error){
+            errorMessage = 'Ive hit captcha error';
+        }
 
         await driver.quit();
 
@@ -86,7 +91,6 @@ describe('This feature will make sure that the shop page is navigable and usable
         const actualDeals = [];
         
         for (const i in skyDeals) {
-            
             const dealText = await skyDeals[i].getText();
             actualDeals.push(dealText);
         }
@@ -111,4 +115,17 @@ describe('This feature will make sure that the shop page is navigable and usable
 
    }, 30000);
 });
+/*
+async function acceptCookie (driver) {
+
+    const iframe = driver.findElement(By.css("iframe[id*='sp_message']"));
+    // switching to frame
+    await driver.switchTo().frame(iframe);
+
+    await driver.findElement(By.xpath("//button[text()='Agree']")).click();
+
+    // switch to default
+    await driver.switchTo().defaultContent();
+}
+*/
 
