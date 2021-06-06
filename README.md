@@ -9,5 +9,15 @@ npm install selenium-webdriver
 npm install --save-dev jest
 
 Running Test:
-1. npm init
+1. npm test
+
+------
+
+create ssh key locally - copy to clipboard 
+go to github account - add ssh key.
+
+git commands
+add files through vs code - or git add .
+git commit -m "Add existing file"
+git push origin main
 
