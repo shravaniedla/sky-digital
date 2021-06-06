@@ -7,7 +7,7 @@ describe('This feature will make sure that the shop page is navigable and usable
         //GIVEN
         await driver.get('https://www.sky.com');
     
-        driver.manage().deleteAllCookies();
+        await driver.manage().deleteAllCookies();
        // acceptCookie(driver);
 
         const iframe = driver.findElement(By.css("iframe[id*='sp_message']"));
